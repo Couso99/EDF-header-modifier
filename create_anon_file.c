@@ -13,7 +13,7 @@ typedef struct localCodes {
 // Load data from .csv to data
 int read_csv(LocalCodes *data, char *fname, int skip)
 {
-  int i, j, k;
+  int i, j;
   char line[1024];
   const char* tok;
   FILE *file;
@@ -77,7 +77,7 @@ int get_transformed_code(char *transformed_localCode, const char *original_local
 // Change original code to  transformed
 int modify_patient_code(char *localCode, LocalCodes *data, char *fname, int rows)
 {
-  int i, j, k, retval, boolRealloc;
+  int retval, boolRealloc;
   char original_localCode[60], transformed_localCode[60];
 
   strcpy(original_localCode, localCode);
@@ -140,7 +140,7 @@ int main(int argc, char const *argv[])
   char ofile_path[60];
   char *ifile_path = (char*)malloc(100*sizeof(char));
 
-  char output_dir[] = "RESULTS";
+  const char *output_dir = argv[1];
   // Depends on csv
   char code_transformation_file[60];
   sprintf(code_transformation_file, "%s/relacion_codigos_sujetos.csv", output_dir);
@@ -148,7 +148,7 @@ int main(int argc, char const *argv[])
 
   rows = init_both_codes_data(&both_codes_data, code_transformation_file, skip);
 
-  for (i=1;i<argc;i++) {
+  for (i=2;i<argc;i++) {
     ifile_path = (char *) realloc(ifile_path, strlen(argv[i])+1);
     strcpy(ifile_path, argv[i]);
 
